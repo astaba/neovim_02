@@ -28,3 +28,11 @@ require("lazy").setup({
     notify = false
   },
 })
+
+-- Should be gitignore for frequent updates
+-- ~/.config/nvim/lua/_color_log.lua
+local ok, theme = pcall(require, "_color_log")
+if not ok then
+  -- Default theme
+  vim.cmd.colorscheme("catppuccin-mocha")
+end

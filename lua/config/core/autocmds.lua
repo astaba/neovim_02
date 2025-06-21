@@ -47,3 +47,17 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo[event.buf].buflisted = false
   end,
 })
+
+-- Save colorscheme updates across sessions
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    local path = vim.fn.stdpath("config") .. "/lua/_color_log.lua"
+    local current = vim.g.colors_name
+    local logline = string.format("vim.cmd.colorscheme(\"%s\")\n", current)
+    local f = io.open(path, "w")
+    if f then
+      f:write(logline)
+      f:close()
+    end
+  end,
+})
