@@ -59,9 +59,9 @@ opts.showmode = false
 -- opts.clipboard:append("unnamedplus") --use system clipboard as default
 
 -- ========================================================  12 EDITING TEXT  ==
--- INFO: Optional to undotree.nvim
-opts.undofile = true
-opts.undodir = os.getenv("HOME") .. "/.vim/undodir"
+-- opts.undofile = true -- Better setup in undotree plugin
+-- opts.undodir = os.getenv("HOME") .. "/.vim/undodir"
+--
 -- -- backspace
 -- opts.backspace = { "start", "eol", "indent" }
 
@@ -81,12 +81,11 @@ opts.expandtab = true
 -- vim.o.foldmethod = "manual" -- Default fold method (change as needed)
 
 -- ===========================================  17 READING AND WRITING FILES  ==
--- INFO: Optional to undotree.nvim
-opts.backup = false
+-- opts.backup = false -- Better setup in undotree plugin
 
 -- =======================================================  18 THE SWAP FILE  ==
--- INFO: Optional to undotree.nvim
-opts.swapfile = false
+-- opts.swapfile = false -- Better setup in undotree plugin
+--
 -- opts.updatetime = 50
 
 -- ===================================================  22 LANGUAGE SPECIFIC  ==
