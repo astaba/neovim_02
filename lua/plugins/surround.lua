@@ -1,11 +1,14 @@
+local enabled = require("config.grimoire")
+
 return {
   "kylechui/nvim-surround",
-    version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    event = "VeryLazy",
-    config = function()
-      require("nvim-surround").setup({})
-    end,
-  }
+  enabled = enabled("nvim-surround"),
+  version = "*", -- Use for stability; omit to use `main` branch for the latest features
+  event = "VeryLazy",
+  config = function()
+    require("nvim-surround").setup({})
+  end,
+}
 
 -- For help :h nvim-surround.usage
 -- The three "core" operations of add/delete/change can be done with the
@@ -21,4 +24,3 @@ return {
 --     'change quot*es'            cs'"            "change quotes"
 --     <b>or tag* types</b>        csth1<CR>       <h1>or tag types</h1>
 --     delete(functi*on calls)     dsf             function calls
-

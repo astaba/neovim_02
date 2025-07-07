@@ -1,17 +1,23 @@
--- NASTY TRICK:
+-- TRICK: Open interactive options setup page: :options
 -- 1. > nvim "$(fzf)"
 -- Then from fzf you fuzzy select your file, press Enter and enjoy the ride.
 -- 2. Run nvim bare bone: nvim -u NONE
--- 3. Open interactive options setup page: :options
-
-local opts = vim.opt
+-- 3. ":verbose set" is a lifesaver when hunting down rogue config settings.
+--     :verbose set tabstop? shiftwidth? expandtab?
+--     This will show where the settings were last modified.
+--     If another plugin or filetype script is overriding them,
+--     you may need to adjust your configuration.
+-- 4. Most of the time, buffer options (bo. and opt_local.) won't apply
+--    until you kill (not only closing!) the buffer and reopen it anew!
 
 -- ========================================================  vim.g  ============
 -- INFO: Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = " "
--- vim.g.maplocalleader = "\\"
+vim.g.maplocalleader = ","
+
+vim.g.have_nerd_font = true
 
 -- WARNING: Disable nterw Explore on the specific explorer plugin
 -- unless you want to be stranded the day your config breaks
@@ -20,12 +26,13 @@ vim.g.mapleader = " "
 vim.cmd("let g:netrw_liststyle = 3")
 -- vim.cmd("let g:netrw_banner = 0 ")
 
+local opts = vim.opt
 -- ================================  2 MOVING AROUND, SEARCHING AND PATTERNS  ==
 opts.incsearch = true
 -- Search wildmenu case-agnostic
 opts.ignorecase = true
 -- Override 'ignorecase' upper case explicitely entered
-opts.smartcase = true
+-- opts.smartcase = true -- WARNING: Bad surprise
 
 -- ======================================================  4 DISPLAYING TEXT  ==
 opts.scrolloff = 5
@@ -52,8 +59,7 @@ opts.splitright = true
 -- opts.mouse = "a"
 
 -- ===================================================  10 MESSAGES AND INFO  ==
--- INFO: Optional to lualine.nvim
-opts.showmode = false
+-- opts.showmode = false -- Better to setup in lualine.nvim
 
 -- ======================================================  11 SELECTING TEXT  ==
 -- opts.clipboard:append("unnamedplus") --use system clipboard as default
@@ -102,3 +108,9 @@ opts.inccommand = "split"
 -- -- gets rid of line with white spaces
 -- vim.g.editorconfig = true
 
+-- LSP window border on hover
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+  -- Add a border to the hover window
+  border = "rounded",
+})

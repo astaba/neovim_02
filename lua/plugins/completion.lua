@@ -1,5 +1,8 @@
+local enabled = require("config.grimoire")
+
 return {
   "hrsh7th/nvim-cmp",
+  enabled = enabled("nvim-cmp"),
   -- enabled = false,
   event = "InsertEnter",
   dependencies = {

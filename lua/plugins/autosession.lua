@@ -1,9 +1,12 @@
+local enabled = require("config.grimoire")
+
 -- INFO: To track bugs run :checkhealth auto-session
 return {
   "rmagatti/auto-session",
+  enabled = enabled("auto-session"),
   config = function()
     -- NOTE: to define before setup; can be fine tuned to save "folds"
-    vim.o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+    vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
     require("auto-session").setup({
       log_level = "info",

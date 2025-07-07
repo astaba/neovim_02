@@ -1,11 +1,26 @@
-local function autogroup(name)
-  return vim.api.nvim_create_augroup("rigae_" .. name, { clear = true })
+-- TRICK: Setting { clear = false } in nvim_create_augroup
+-- will reapply settings whenever you enter
+
+local M = {}
+
+function M.augroup(name)
+  return vim.api.nvim_create_augroup("Rigae_" .. name, { clear = true })
 end
+
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+  group = M.augroup("checktime"),
+  callback = function()
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd("checktime")
+    end
+  end,
+})
 
 -- Highlight yanking text. See `:help vim.hl.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = "Highlight when yanking (copying) text",
-  group = autogroup("highlight_yank"),
+  group = M.augroup("highlight_yank"),
   callback = function()
     (vim.hl or vim.highlight).on_yank()
   end,
@@ -13,7 +28,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- resize splits if host-hardware screen got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
-  group = autogroup("resize_splits"),
+  group = M.augroup("resize_splits"),
   callback = function()
     local current_tab = vim.fn.tabpagenr()
     vim.cmd("tabdo wincmd =")
@@ -23,7 +38,7 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 
 -- go to last loc when opening a buffer
 vim.api.nvim_create_autocmd("BufReadPost", {
-  group = autogroup("last_loc"),
+  group = M.augroup("last_loc"),
   callback = function(event)
     local exclude = { "gitcommit" }
     local buf = event.buf
@@ -41,23 +56,11 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 -- make it easier to close man-files when opened inline
 vim.api.nvim_create_autocmd("FileType", {
-  group = autogroup("man_unlisted"),
+  group = M.augroup("man_unlisted"),
   pattern = { "man" },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
   end,
 })
 
--- Save colorscheme updates across sessions
-vim.api.nvim_create_autocmd("ColorScheme", {
-  callback = function()
-    local path = vim.fn.stdpath("config") .. "/lua/_color_log.lua"
-    local current = vim.g.colors_name
-    local logline = string.format("vim.cmd.colorscheme(\"%s\")\n", current)
-    local f = io.open(path, "w")
-    if f then
-      f:write(logline)
-      f:close()
-    end
-  end,
-})
+return M

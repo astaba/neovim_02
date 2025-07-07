@@ -1,7 +1,23 @@
+local enabled = require("config.grimoire")
+
 return {
   "neovim/nvim-lspconfig",
+  enabled = enabled("nvim-lspconfig"),
   dependencies = {
-    "williamboman/mason.nvim",
+    {
+      "williamboman/mason.nvim",
+      ---@class MasonSettings
+      opts = {
+        ui = {
+          icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+          },
+          border = "rounded", -- "bold"|"double"|"none"|"rounded"|"shadow"|"single"|"solid"
+        }
+      }
+    },
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     -- Useful status updates for LSP.
@@ -26,10 +42,10 @@ return {
     -- lspconfig.ts_ls.setup({})
     -- lspconfig.clangd.setup({})
 
-    local function keymap_1(lhs, rhs, opts)
-      opts = opts or {}
-      if opts.desc then opts.desc = "LSP: " .. opts.desc end
-      vim.keymap.set("n", lhs, rhs, opts)
+    local function keymap_1(lhs, rhs, mapopts)
+      mapopts = mapopts or {}
+      if mapopts.desc then mapopts.desc = "LSP: " .. mapopts.desc end
+      vim.keymap.set("n", lhs, rhs, mapopts)
     end
 
     -- Global mappings.
@@ -165,7 +181,7 @@ return {
     --  other tools, you can run
     --    :Mason
     --  You can press `g?` for help in this menu.
-    require("mason").setup()
+    -- require("mason").setup()
 
     -- You can add other tools here that you want Mason to install
     -- for you, so that they are available from within Neovim.
@@ -178,6 +194,7 @@ return {
       -- "ts_ls",
       "prettierd",
       "prettier",
+      "emmet_language_server", -- Used by nvim-emmet (html tags wrapper)
     })
     require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

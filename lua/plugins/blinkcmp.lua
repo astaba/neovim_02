@@ -1,6 +1,8 @@
+local enabled = require("config.grimoire")
+
 return {
   "saghen/blink.cmp",
-  enabled = false,
+  enabled = enabled("blink-cmp"),
   -- optional: provides snippets for the snippet source
   dependencies = {
     "rafamadriz/friendly-snippets",

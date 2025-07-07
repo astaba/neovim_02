@@ -30,9 +30,3 @@ undo/*
 *.luac
 cache/
 .luarc.json
-
-# Telescoope theme keeper
-current-theme.lua
-_color_log.lua
-
-

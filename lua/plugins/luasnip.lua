@@ -1,5 +1,8 @@
+local enabled = require("config.grimoire")
+
 return {
   "L3MON4D3/luasnip",
+  enabled = enabled("luasnip"),
   -- enabled = false,
   -- follow latest release.
   version = "v2.*", -- replace <currentmajor> by the latest released major (first number of latest release)

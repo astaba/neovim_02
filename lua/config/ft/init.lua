@@ -1,0 +1,6 @@
+require("config.ft.makefile")
+require("config.ft.object")
+require("config.ft.shell")
+require("config.ft.assembly")
+require("config.ft.c-cpp")
+require("config.ft.text")

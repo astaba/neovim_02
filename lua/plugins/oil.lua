@@ -1,5 +1,8 @@
+local enabled = require("config.grimoire")
+
 return {
   "stevearc/oil.nvim",
+  enabled = enabled("oil-nvim"),
   ---@module 'oil'
   ---@type oil.SetupOpts
   opts = {},
@@ -8,7 +11,8 @@ return {
   -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
   lazy = false,
   config = function()
-    require("oil").setup({
+    local oil = require("oil")
+    oil.setup({
       default_file_explorer = true, -- In case you run: nvim .
       delete_to_trash = true,
       skip_confirm_for_simple_edits = true,
@@ -40,7 +44,12 @@ return {
         show_hidden = true,
       },
     })
-    vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", {desc = "Open parent directory"})
+
+    vim.keymap.set("n", "-", function()
+      oil.open_float(nil, nil, function() oil.open_preview() end)
+    end, { desc = "Open parent directory" })
+    vim.keymap.set("n", "<Left>", function()
+      oil.open(nil, nil, function() oil.open_preview() end)
+    end, { desc = "Open parent directory" })
   end
 }
-
