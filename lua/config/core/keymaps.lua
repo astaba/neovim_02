@@ -167,3 +167,10 @@ map("n", "<Leader>vf", "<CMD>!code %<CR>", { desc = "Open file in VS Code", sile
 
 map("n", "<localleader>l", "<CMD>Lazy<CR>", { desc = "lazy.nvim", noremap = true, silent = true })
 map("n", "<localleader>m", "<CMD>Mason<CR>", { desc = "mason.nvim", noremap = true, silent = true })
+
+map(
+  "n",
+  "<Leader>f",
+  function() vim.lsp.buf.format({ async = true }) end,
+  { desc = "LSP: Format Buffer", noremap = true }
+)

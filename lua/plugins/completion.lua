@@ -3,7 +3,6 @@ local enabled = require("config.grimoire")
 return {
   "hrsh7th/nvim-cmp",
   enabled = enabled("nvim-cmp"),
-  -- enabled = false,
   event = "InsertEnter",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
@@ -19,7 +18,12 @@ return {
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
-    -- luasnip.config.setup({})
+
+    vim.lsp.config("*", {
+      capabilities = {
+        require("cmp_nvim_lsp").default_capabilities(),
+      }
+    })
 
     -- set up nvim-cmp
     cmp.setup({
@@ -37,7 +41,7 @@ return {
         completeopt = "menu,menuone,popup,noselect",
       },
 
-      -- HACK: Please read `:help ins-completion`, it is really good!
+      -- HACK: Please read `:help ins-completion`, it's really good!
 
       mapping = cmp.mapping.preset.insert({
         ["<C-n>"] = cmp.mapping.select_next_item(),

@@ -2,13 +2,14 @@ local enabled = require("config.grimoire")
 
 return {
   "windwp/nvim-autopairs",
-  enabled = enabled("nvim-autopair"),
+  enabled = enabled("nvim-autopairs"),
   event = { "InsertEnter" },
   dependencies = {
     "hrsh7th/nvim-cmp",
   },
   config = function()
-    require("nvim-autopairs").setup({
+    local autopairs = require("nvim-autopairs")
+    autopairs.setup({
       -- INFO: enter "{, (, [, ..." and trigger competion with Meta-e
       fast_wrap = {},                       -- press <a-e> to use fast_wrap
       check_ts = true,                      -- treesitter enabled
@@ -19,12 +20,15 @@ return {
       },
     })
 
-    -- Without nvim_cmp: add option map_cr
-    -- autopairs.setup({ map_cr = true })
-
-    -- With nvim_cmp: import nvim-autopairs completion functionality
-    local autopairs_cmp = require("nvim-autopairs.completion.cmp")
-    -- make autopairs and completion plugin work together
-    require("cmp").event:on("confirm_done", autopairs_cmp.on_confirm_done())
+    local ok, cmp = pcall(require, "cmp")
+    if ok then
+      -- With nvim_cmp: import nvim-autopairs completion functionality
+      local autopairs_cmp = require("nvim-autopairs.completion.cmp")
+      -- make autopairs and completion plugin work together
+      cmp.event:on("confirm_done", autopairs_cmp.on_confirm_done())
+    else
+      -- Without nvim_cmp: add option map_cr
+      autopairs.setup({ map_cr = true })
+    end
   end,
 }

@@ -114,3 +114,63 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
   -- Add a border to the hover window
   border = "rounded",
 })
+
+vim.diagnostic.config({
+  -- virtual_text = { current_line = true },
+  virtual_lines = { current_line = true },
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+  callback = function(event)
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local map = function(mode, lh, rh, desc)
+      vim.keymap.set(mode, lh, rh, { buffer = event.buf, desc = "LSP: " .. desc })
+    end
+
+    -- HACK: Use <C-t> to jump back to the preceding Tag.
+
+    -- keymap_2("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, "Add workspace floder")
+    -- keymap_2("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove workspace floder")
+    -- keymap_2("n", "<Leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, "List workspace folder")
+
+    --    See `:help CursorHold` for information about when this is executed
+    local client = assert(vim.lsp.get_client_by_id(event.data.client_id))
+
+    if client and client:supports_method("textDocument/completion") then
+      vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
+    end
+
+    if client and client:supports_method("textDocument/documentHighlight") then
+      local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        buffer = event.buf,
+        group = highlight_augroup,
+        callback = vim.lsp.buf.document_highlight,
+      })
+
+      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+        buffer = event.buf,
+        group = highlight_augroup,
+        callback = vim.lsp.buf.clear_references,
+      })
+
+      vim.api.nvim_create_autocmd("LspDetach", {
+        group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+        callback = function(event2)
+          vim.lsp.buf.clear_references()
+          vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+        end,
+      })
+    end
+
+    -- The following code creates a keymap to toggle inlay hints in your
+    -- code, if the language server you are using supports them
+    -- This may be unwanted, since they displace some of your code
+    if client and client:supports_method("textDocument/inlay_hint") then
+      map("n", "<leader>hi", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
+        "LSP Toggle Inlay Hints")
+    end
+  end, -- of LspAttach callback
+})

@@ -25,4 +25,13 @@ return {
       lsp_format = "fallback",
     },
   },
+  config = function(_, opts)
+    local conform = require("conform")
+    vim.keymap.set(
+      "n",
+      "<Leader>f",
+      function() conform.format({ lsp_format = "fallback" }) end,
+      { desc = "Conform: Format Buffer", noremap = true }
+    )
+  end
 }
