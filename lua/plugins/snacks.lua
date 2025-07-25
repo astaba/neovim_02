@@ -2,7 +2,7 @@ local enabled = require("config.grimoire")
 
 return {
   "folke/snacks.nvim",
-  enabled = enabled("snacks"),
+  enabled = enabled("snacks.nvim"),
   priority = 1000,
   lazy = false,
   ---@type snacks.Config
@@ -27,7 +27,7 @@ return {
         { section = "startup" },
         {
           section = "terminal",
-          cmd = "ascii-image-converter ~/Documents/Image/sunny_path.jpg -C -c; sleep .1",
+          cmd = "ascii-image-converter ~/images/sunny_path.jpg -C -c; sleep .1",
           random = 10,
           pane = 2,
           indent = 4,

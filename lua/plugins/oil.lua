@@ -2,8 +2,8 @@ local enabled = require("config.grimoire")
 
 return {
   "stevearc/oil.nvim",
-  enabled = enabled("oil-nvim"),
-  ---@module 'oil'
+  enabled = enabled("oil.nvim"),
+  ---@module "oil"
   ---@type oil.SetupOpts
   opts = {},
   -- Optional dependencies

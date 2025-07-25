@@ -1,8 +1,8 @@
 local enabled = require("config.grimoire")
 
 return {
-  'stevearc/conform.nvim',
-  enabled = enabled("conform"),
+  "stevearc/conform.nvim",
+  enabled = enabled("conform.nvim"),
   opts = {
     -- default_format_opts = {
     --   lsp_format = "fallback", -- NOTE: Already set in key binding rhs
@@ -25,13 +25,4 @@ return {
       lsp_format = "fallback",
     },
   },
-  config = function(_, opts)
-    local conform = require("conform")
-    vim.keymap.set(
-      "n",
-      "<Leader>f",
-      function() conform.format({ lsp_format = "fallback" }) end,
-      { desc = "Conform: Format Buffer", noremap = true }
-    )
-  end
 }

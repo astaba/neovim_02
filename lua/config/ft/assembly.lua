@@ -6,13 +6,13 @@ local Compile = require("config.lib.compile")
 
 vim.api.nvim_create_augroup("NasmFiles", { clear = true })
 
-local nasm_pattern = { "*.asm", "*.nasm", }
+local nasm_pattern = { "*.s", "*.as", "*.asm", "*.nasm", }
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = "NasmFiles",
   pattern = nasm_pattern,
   callback = function()
-    vim.bo.filetype = "nasm"
+    vim.bo.filetype = "asm"
     Layouts.tab4_et()
     Compile.auto_compile()
   end

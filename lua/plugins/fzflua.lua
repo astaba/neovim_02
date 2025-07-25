@@ -24,7 +24,7 @@ return {
     -- { "<leader>fm", function() require("fzf-lua").marks() end, desc = "Jump to Mark" },
     -- { "<leader>fj", function() require("fzf-lua").jumps() end, desc = "Jump List" },
     -- Search
-    { "<leader>ss",      function() require("fzf-lua").grep() end,                                    desc = "Search Pattern" },
+    { "<leader>gg",      function() require("fzf-lua").grep() end,                                    desc = "Search Pattern" },
     { "<leader>fg",      function() require("fzf-lua").live_grep() end,                               desc = "Live Grep Project" },
     { "<leader>*",       function() require("fzf-lua").grep_curbuf() end,                             desc = "Grep Current Buffer" },
     -- INFO: Regexp: \b matches a word boundary i.e. \w vs \W
@@ -32,6 +32,7 @@ return {
     { "<leader>fW",      function() require("fzf-lua").grep_cWORD() end,                              desc = "Grep (^|\\s)word($|\\s) under cursor" },
     -- { "<leader>gv", function() require("fzf-lua").grep_visual() end, desc = "Grep Last Visual Selection" },
     { "<leader>!",       function() require("fzf-lua").grep_project() end,                            desc = "Grep Project Lines" },
+    { "<leader>ll",      function() require("fzf-lua").loclist() end,                                 desc = "Local list" },
     -- Git
     { "<leader>gf",      function() require("fzf-lua").git_files() end,                               desc = "Git Files" },
     { "<leader>gs",      function() require("fzf-lua").git_status() end,                              desc = "Git Status" },
@@ -44,22 +45,22 @@ return {
     { "<leader>gT",      function() require("fzf-lua").git_tags() end,                                desc = "Git Tags" },
     { "<leader>gS",      function() require("fzf-lua").git_stash() end,                               desc = "Git Stash" },
     -- LSP and diagnostics
-    { "gr",              function() require("fzf-lua").lsp_references() end,                          desc = "LSP References" },
-    { "gd",              function() require("fzf-lua").lsp_definitions() end,                         desc = "LSP Definitions" },
+    { "grr",             function() require("fzf-lua").lsp_references() end,                          desc = "LSP References" },
+    { "grt",             function() require("fzf-lua").lsp_definitions() end,                         desc = "LSP Definitions" },
     { "gD",              function() require("fzf-lua").lsp_declarations() end,                        desc = "LSP Declarations" },
     { "<leader>td",      function() require("fzf-lua").lsp_typedefs() end,                            desc = "LSP TypeDefs" },
-    { "gi",              function() require("fzf-lua").lsp_implementations() end,                     desc = "LSP Implementations" },
-    { "<leader>fs",      function() require("fzf-lua").lsp_document_symbols() end,                    desc = "LSP Document Symbols" },
+    { "gri",             function() require("fzf-lua").lsp_implementations() end,                     desc = "LSP Implementations" },
+    { "gO",              function() require("fzf-lua").lsp_document_symbols() end,                    desc = "LSP Document Symbols" },
     { "<localleader>fs", function() require("fzf-lua").lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
     { "<leader>ci",      function() require("fzf-lua").lsp_incoming_calls() end,                      desc = "LSP incoming calls" },
     { "<leader>co",      function() require("fzf-lua").lsp_outgoing_calls() end,                      desc = "LSP outgoing calls" },
-    { "<leader>ca",      function() require("fzf-lua").lsp_code_actions() end,                        mode = { "n", "v" },                          desc = "LSP Code Actions" },
+    { "gra",             function() require("fzf-lua").lsp_code_actions() end,                        mode = { "n", "v" },                          desc = "LSP Code Actions" },
     { "<leader>fd",      function() require("fzf-lua").diagnostics_document() end,                    desc = "LSP Document Diagnostics" },
     { "<localleader>fd", function() require("fzf-lua").diagnostics_workspace() end,                   desc = "LSP Workspace Diagnostics" },
     -- Miscellaneous
     { "<leader>fr",      function() require("fzf-lua").resume() end,                                  desc = "Resume last query" },
     { "<leader>fp",      function() require("fzf-lua").builtin() end,                                 desc = "Fzf builtins" },
-    { "<leader>fz",      function() require("fzf-lua").profiles() end,                                desc = "Fzf-lua config" },
+    -- { "<leader>fz",      function() require("fzf-lua").profiles() end,                                desc = "Fzf-lua config" },
     { "<leader>fh",      function() require("fzf-lua").helptags() end,                                desc = "Help Tags" },
     { "<leader>fm",      function() require("fzf-lua").manpages() end,                                desc = "Man Pages" },
     { "<leader>th",      function() require("fzf-lua").colorschemes() end,                            desc = "Color Schemes" },
@@ -72,5 +73,7 @@ return {
     -- { "<leader>db", function() require("fzf-lua").dap_breakpoints() end, desc = "DAP Breakpoints" },
     -- { "<leader>dv", function() require("fzf-lua").dap_variables() end, desc = "DAP Variables" },
     -- { "<leader>df", function() require("fzf-lua").dap_frames() end, desc = "DAP Frames" },
+    -- zoxide
+    { "<leader>fz",      function() require("fzf-lua").zoxide() end,                                  desc = "list recent directories" },
   },
 }

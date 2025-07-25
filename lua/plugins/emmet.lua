@@ -9,8 +9,8 @@ return {
   config = function()
     vim.keymap.set(
       { "n", "v" },
-      '<leader>mu',
-      require('nvim-emmet').wrap_with_abbreviation,
+      "<leader>mu",
+      require("nvim-emmet").wrap_with_abbreviation,
       { desc = "Wrap html [m]ark-[u]p" }
     )
   end,

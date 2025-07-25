@@ -4,7 +4,7 @@ local enabled = require("config.grimoire")
 -- in multiple actions. Unless your GPU is powerful this is a nightmare
 return {
   "sphamba/smear-cursor.nvim",
-  enabled = enabled("smear-cursor"),
+  enabled = enabled("smear-cursor.nvim"),
   opts = {
     --Default   Range
     stiffness = 0.6,                      -- 0.6      [0, 1]

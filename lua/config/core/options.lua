@@ -108,12 +108,7 @@ opts.inccommand = "split"
 -- -- gets rid of line with white spaces
 -- vim.g.editorconfig = true
 
--- LSP window border on hover
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  -- Add a border to the hover window
-  border = "rounded",
-})
+-- vim.o.winborder = "rounded"
 
 vim.diagnostic.config({
   -- virtual_text = { current_line = true },
@@ -138,9 +133,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     --    See `:help CursorHold` for information about when this is executed
     local client = assert(vim.lsp.get_client_by_id(event.data.client_id))
 
-    if client and client:supports_method("textDocument/completion") then
-      vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-    end
+    -- TODO: Neovim builtin completion seems really promising
+    -- if client and client:supports_method("textDocument/completion") then
+    --   vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
+    -- end
 
     if client and client:supports_method("textDocument/documentHighlight") then
       local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })

@@ -1,8 +1,9 @@
 -- KEY MAPPING
 -- HACK: Diagnostic key bindings
 -- 1. In cmd mode display all mapping including nvim builtins: :no
--- 2. When you suspect rogue keybinds <Key-Combo>, this one-liner is gold:
---    :verbose [mode]map <Key-Combo> -- n mode verbose
+-- 2. When you suspect rogue key bindings <Key-Combo>, this one-liner is gold:
+--    :verbose [mode]map <Key-Combo>
+--    -- n mode with "nmap" could be verbose
 -- 3. To uncapture any vim builtin binding from some rogue custom mapping:
 -- vim.keymap.del("<Key-Combo>")
 -- 4. <Tab> and <C-I> send same byte (\t, ASCII 9) Neovim can't tell apart.
@@ -15,6 +16,8 @@ local map = vim.keymap.set
 -- "jk" and "kj" are almost inexistant in the editor < language >
 map("i", "jk", "<ESC>l", { desc = "Escape i mode", noremap = true, silent = true })
 map("i", "kj", "<ESC>l", { desc = "Escape i mode", noremap = true, silent = true })
+map("i", "JK", "<ESC>l", { desc = "Escape i mode", noremap = true, silent = true })
+map("i", "KJ", "<ESC>l", { desc = "Escape i mode", noremap = true, silent = true })
 
 -- HACK: To turn off hls without unsetting it run :nohls not :set nohls
 map("n", "<Leader>nh", "<CMD>nohls<CR>", { desc = "Clear hls" })
@@ -161,16 +164,12 @@ map({ "n", "v" }, "<Leader>ro", "<Cmd>ToggleReadonly<CR>",
   { desc = "Toggle readonly", noremap = true, silent = true })
 
 -- VS CODE
-
 map("n", "<Leader>vr", "<CMD>!code .<CR>", { desc = "Open cwd in VS Code", silent = true })
 map("n", "<Leader>vf", "<CMD>!code %<CR>", { desc = "Open file in VS Code", silent = true })
 
 map("n", "<localleader>l", "<CMD>Lazy<CR>", { desc = "lazy.nvim", noremap = true, silent = true })
 map("n", "<localleader>m", "<CMD>Mason<CR>", { desc = "mason.nvim", noremap = true, silent = true })
 
-map(
-  "n",
-  "<Leader>f",
-  function() vim.lsp.buf.format({ async = true }) end,
-  { desc = "LSP: Format Buffer", noremap = true }
-)
+map("n", "<Leader>d", function()
+  vim.diagnostic.open_float({ border = "rounded" })
+end, { desc = "Vim diagnostic" })

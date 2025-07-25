@@ -2,7 +2,7 @@ local enabled = require("config.grimoire")
 
 return {
   "Exafunction/codeium.vim",
-  enabled = enabled("codeium"),
+  enabled = enabled("codeium.vim"),
   event = "BufEnter",
   init = function()
     -- vim.g.codeium_enabled = false;
@@ -28,11 +28,11 @@ return {
       vim.keymap.set("i", lhs, rhs, opts)
     end
 
-    map('<C-]>', function() return vim.fn['codeium#Clear']() end, { desc = "Codeium clear" })
-    map('<M-]>', function() return vim.fn['codeium#CycleOrComplete']() end, { desc = "Codeium cycle forth" })
-    map('<M-[>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { desc = "Codeium cycle back" })
-    map('<C-G>', function() return vim.fn['codeium#Accept']() end, { desc = "Codeium accept" })
-    map('<M-,>', function() return vim.fn['codeium#AcceptNextWord']() end, { desc = "Codeium accept word" })
-    map('<M-;>', function() return vim.fn['codeium#AcceptNextLine']() end, { desc = "Codeium accept line" })
+    map("<C-]>", function() return vim.fn["codeium#Clear"]() end, { desc = "Codeium clear" })
+    map("<M-]>", function() return vim.fn["codeium#CycleOrComplete"]() end, { desc = "Codeium cycle forth" })
+    map("<M-[>", function() return vim.fn["codeium#CycleCompletions"](-1) end, { desc = "Codeium cycle back" })
+    map("<C-G>", function() return vim.fn["codeium#Accept"]() end, { desc = "Codeium accept" })
+    map("<M-,>", function() return vim.fn["codeium#AcceptNextWord"]() end, { desc = "Codeium accept word" })
+    map("<M-;>", function() return vim.fn["codeium#AcceptNextLine"]() end, { desc = "Codeium accept line" })
   end,
 }

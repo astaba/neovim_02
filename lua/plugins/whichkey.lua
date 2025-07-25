@@ -1,9 +1,9 @@
 local enabled = require("config.grimoire")
 
 return {
-  'folke/which-key.nvim',
-  enabled = enabled("which-key"),
-  event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+  "folke/which-key.nvim",
+  enabled = enabled("which-key.nvim"),
+  event = "VimEnter", -- Sets the loading event to "VimEnter"
   config = function() -- This is the function that runs, AFTER loading
     local wk = require("which-key")
 

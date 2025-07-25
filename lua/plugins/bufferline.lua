@@ -1,10 +1,10 @@
 local enabled = require("config.grimoire")
 
 return {
-  'akinsho/bufferline.nvim',
-  enabled = enabled("bufferline"),
+  "akinsho/bufferline.nvim",
+  enabled = enabled("bufferline.nvim"),
   version = "*",
-  dependencies = 'nvim-tree/nvim-web-devicons',
+  dependencies = "nvim-tree/nvim-web-devicons",
   init = function()
     vim.opt.termguicolors = true
     vim.opt.mousemoveevent = true;
@@ -15,12 +15,12 @@ return {
         hover = {
           enabled = true,
           delay = 200,
-          reveal = { 'close' }
+          reveal = { "close" }
         },
         middle_mouse_command = "sbuffer %d",
         right_mouse_command = "vertical sbuffer %d",
         numbers = function(opts)
-          return string.format('%s·%s', opts.ordinal, opts.id)
+          return string.format("%s·%s", opts.ordinal, opts.id)
         end,
 
       },

@@ -2,7 +2,7 @@ local enabled = require("config.grimoire")
 
 return {
   "iamcco/markdown-preview.nvim",
-  enabled = enabled("markdown-preview"),
+  enabled = enabled("markdown-preview.nvim"),
   cmd = {
     "MarkdownPreviewToggle",
     "MarkdownPreview",

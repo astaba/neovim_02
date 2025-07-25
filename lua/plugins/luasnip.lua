@@ -1,16 +1,12 @@
 local enabled = require("config.grimoire")
 
 return {
-  "L3MON4D3/luasnip",
-  enabled = enabled("luasnip"),
+  "L3MON4D3/LuaSnip",
+  enabled = enabled("LuaSnip"),
   -- follow latest release.
   version = "v2.*", -- replace <currentmajor> by the latest released major (first number of latest release)
   -- install jsregexp (optional!).
   build = "make install_jsregexp",
-  dependencies = {
-    -- "saadparwaiz1/cmp_luasnip",     -- for autocompletion: requires nvim_cmp
-    "rafamadriz/friendly-snippets", -- useful snippets
-  },
 
   config = function()
     local luasnip = require("luasnip")

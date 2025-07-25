@@ -3,7 +3,7 @@ local enabled = require("config.grimoire")
 return {
   -- Quickly Jump through the todo tags
   "folke/todo-comments.nvim",
-  enabled = enabled("todo-comments"),
+  enabled = enabled("todo-comments.nvim"),
   event = { "BufReadPre", "BufNewFile" },
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()

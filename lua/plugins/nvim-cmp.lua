@@ -11,7 +11,7 @@ return {
     "onsails/lspkind.nvim", -- vs-code like pictograms
     -- "hrsh7th/cmp-nvim-lua",
 
-    "L3MON4D3/luasnip",
+    "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip", -- for autocompletion
     "rafamadriz/friendly-snippets",
   },

@@ -4,6 +4,9 @@ local enabled = require("config.grimoire")
 return {
   "rmagatti/auto-session",
   enabled = enabled("auto-session"),
+  dependencies = {
+    "nvim-telescope/telescope.nvim",
+  },
   config = function()
     -- NOTE: to define before setup; can be fine tuned to save "folds"
     vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
@@ -41,7 +44,7 @@ return {
     end
     map("<leader>sr", "<Cmd>SessionRestore<CR>", { desc = "Restore session" })
     map("<leader>sl", "<Cmd>SessionSearch<CR>", { desc = "Display session list" })
-    -- map("n", "<leader>ss", "<Cmd>SessionSave<CR>", { desc = "Save session." })
+    map("<leader>ss", "<Cmd>SessionSave<CR>", { desc = "Save session." })
     -- map("n", "<leader>sd", "<Cmd>SessionDelete<CR>", { desc = "Delete session." })
   end,
 }

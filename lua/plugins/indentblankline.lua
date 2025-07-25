@@ -2,7 +2,7 @@ local enabled = require("config.grimoire")
 
 return {
   "lukas-reineke/indent-blankline.nvim",
-  enabled = enabled("indent-blankline"),
+  enabled = enabled("indent-blankline.nvim"),
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "hiphish/rainbow-delimiters.nvim",
@@ -22,15 +22,15 @@ return {
           "RainbowCyan",
         },
         strategy = {
-          [''] = rainbow_delimiters.strategy['global'],
-          commonlisp = rainbow_delimiters.strategy['local'],
+          [""] = rainbow_delimiters.strategy["global"],
+          commonlisp = rainbow_delimiters.strategy["local"],
         },
         query = {
-          [''] = 'rainbow-delimiters',
-          lua = 'rainbow-blocks',
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
         },
         priority = {
-          [''] = 110,
+          [""] = 110,
           lua = 210,
         },
       }
