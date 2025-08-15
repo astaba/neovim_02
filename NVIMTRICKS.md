@@ -107,3 +107,10 @@ Totally understandable—Vim's mapping namespaces can be a bit obscure at first!
 
 When debugging, `:verbose` with the **specific mode’s map** command is your best friend. And if a key isn’t bound because Lazy hasn’t loaded the plugin yet—that’s the trap! Load it first, then `:verbose nmap <leader>...` will tell the full story.
 
+### **🔹 Extracting Messages**
+
+Sometimes the need arises to copy the notification messages in vim cmd line bar.
+
+Enter the command `:redir @+>` with the `+` register or any register you want to send messages to (the chevron `>` is optional). From then on until the end of the session all notification message is concatenated to that register.
+
+If, as it's usually the case, you just need a punctual extraction, after running the `:redir @<register>` command, trigger messages with `:messages` command and terminate the redirection with `:redir END` command lest you want to collapse some register.
