@@ -11,7 +11,7 @@ return {
     },
   },
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     enabled = enabled("mason.nvim"),
     ---@class MasonSettings
     opts = {
@@ -26,9 +26,9 @@ return {
     }
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     enabled = enabled("mason-lspconfig.nvim"),
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "mason-org/mason.nvim" },
     opts = {
       ensure_installed = {
         "clangd",
@@ -43,7 +43,7 @@ return {
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     enabled = enabled("mason-tool-installer.nvim"),
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "mason-org/mason.nvim" },
     opts = {
       -- NOTE: Because mason-lspconfig only accepts lspconfig server names
       ensure_installed = {
