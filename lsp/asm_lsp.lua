@@ -1,3 +1,4 @@
 return {
-  filetypes = { "asm", "vmasm", "nasm" },
+  -- cmd = { "asm-lsp" },
+  -- filetypes = { "asm", "nasm" },
 }

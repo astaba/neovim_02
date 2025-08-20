@@ -1,5 +1,31 @@
 # Assembly
 
+## `asm-lsp` server
+
+`asm-lsp` server only works on the file types its counterpart `asm_lsp` client attaches to by default or by configuration (editor settings) By default `asm-lsp` server target language is AT&T syntax. To enable other syntax like Intel using `nasm` enable this configuration on the root project.
+
+```toml
+[default_config]
+version = "0.10.0"
+assembler = "nasm"
+instruction_set = "x86/x86-64"
+
+[default_config.opts]
+compiler = "nasm"
+compile_flags_txt = [
+    "-f",
+    "elf64",
+    "-g",
+    "-F",
+    "dwarf",
+    # "-I",
+    # "/home/owner/.local/include/asm/",
+]
+
+diagnostics = true
+default_diagnostics = true
+```
+
 ## **Configure Build and Run Commands**
 
 Add shortcuts to assemble, link, and run your assembly programs directly from Neovim.
