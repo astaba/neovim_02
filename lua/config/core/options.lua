@@ -38,6 +38,8 @@ opts.ignorecase = true
 opts.scrolloff = 5
 opts.wrap = false
 opts.list = true
+-- HACK: Something nice tab character is that when commenting out a line
+-- only the part before the tab shift right, the remaining part do not shift
 opts.listchars = { tab = '▷ ', trail = '·', nbsp = '␣' }
 opts.number = true
 opts.relativenumber = true
