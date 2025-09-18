@@ -114,3 +114,10 @@ Sometimes the need arises to copy the notification messages in vim cmd line bar.
 Enter the command `:redir @+>` with the `+` register or any register you want to send messages to (the chevron `>` is optional). From then on until the end of the session all notification message is concatenated to that register.
 
 If, as it's usually the case, you just need a punctual extraction, after running the `:redir @<register>` command, trigger messages with `:messages` command and terminate the redirection with `:redir END` command lest you want to collapse some register.
+
+### **🔹 Useful Insert**
+
+When you need to insert some computation while in `Insert Mode`: `CTRL-R`, `=`, e.g.: `5+6`, `<Enter>`
+
+Insert the date from `bash` `date` command: `:read!date`, `<Enter>`
+

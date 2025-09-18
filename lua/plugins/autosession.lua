@@ -1,5 +1,4 @@
 local enabled = require("config.grimoire")
-
 -- INFO: To track bugs run :checkhealth auto-session
 return {
   "rmagatti/auto-session",

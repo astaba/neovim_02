@@ -9,7 +9,7 @@ require("config.ft")
 --    lua/config/~edict.lua  (must be gitignored)
 -- 2. load from all plugins files the lua/config/grimoire.lua magic grimoire
 --    to know who is allowed to bask under the lazy sun of nvim paradise.
---    Go to "nvim/lua/config/grimoire.lua" to learn how.
+--    Go to "lua/config/grimoire.lua" to learn how.
 
 -- Load the plugin manager
 require("config.lazy")
