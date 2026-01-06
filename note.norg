@@ -1,0 +1,33 @@
+@document.meta
+title: Note
+@end
+
+* Header 1
+
+  look that /| bold |/ space
+
+** Nesting
+*** Unordered list
+    - Unordered list level 1
+    -- Unordered list level 2
+    --- Unordered list level 3
+*** Ordered list
+    ~ Ordered list level 1
+    ~~ Ordered list level 2
+
+*** Tasks
+    - ( ) Undone
+    - (x) done
+    - (?) Needs further input
+    - (!) Urgent matter
+    - (-) Pending matters -> currently in progress
+    - (=) Task to put on hold
+    - (_) Cancelled task
+
+****** Final heading level
+
+       So this text belongs to the six level
+       ---
+===
+___
+

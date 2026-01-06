@@ -121,3 +121,6 @@ When you need to insert some computation while in `Insert Mode`: `CTRL-R`, `=`, 
 
 Insert the date from `bash` `date` command: `:read!date`, `<Enter>`
 
+### **🔹 Force tab expansion**
+
+`:%retab! 2`
