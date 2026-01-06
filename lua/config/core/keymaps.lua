@@ -11,24 +11,47 @@
 
 local map = vim.keymap.set
 
--- WARNING: Setting v or x mode for these bindings bogs down visual selection
+-- WARNING: Setting v or x mode for these bindings bogs down visual selection.
 -- These mappings SUPER POWER relies on the unique fact that the strings
--- "jk" and "kj" are almost inexistant in the editor < language >
+-- "jk" and "kj" are almost inexistant in the locale language of the editor.
+-- Explicitly use <ESC> when recording macros in registers.
 map("i", "jk", "<ESC>l", { desc = "Escape i mode", noremap = true, silent = true })
 map("i", "kj", "<ESC>l", { desc = "Escape i mode", noremap = true, silent = true })
 map("i", "JK", "<ESC>l", { desc = "Escape i mode", noremap = true, silent = true })
 map("i", "KJ", "<ESC>l", { desc = "Escape i mode", noremap = true, silent = true })
 
--- HACK: To turn off hls without unsetting it run :nohls not :set nohls
-map("n", "<Leader>nh", "<CMD>nohls<CR>", { desc = "Clear hls" })
+-- better up/down
+map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
 --KEEP THINGS CENTERED
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
--- MOVE VISUAL SELECTION AROUND: yeah, but undo becomes long and painful
--- map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move visual selection down", silent = true })
--- map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move visual selection up", silent = true })
+-- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+-- Irrespective of whether you search with * (cli /) or # (cli ?)
+-- n stays foreward and N statys backward.
+map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
+map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
+map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
+map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
+map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+
+-- Add undo break-points
+map("i", ",", ",<c-g>u")
+map("i", ".", ".<c-g>u")
+map("i", ";", ";<c-g>u")
+
+-- Move Lines
+map("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
+map("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
+map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
+map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
+map("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
+map("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
 
 -- Uninterrupted indent in x mode: a bliss
 map("v", "<", "<gv", { noremap = true, silent = true })
@@ -36,19 +59,55 @@ map("v", ">", ">gv", { noremap = true, silent = true })
 
 -- OPEN TERMINAL
 
+-- location list
+map("n", "<leader>xl", function()
+  local success, err = pcall(vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 and vim.cmd.lclose or vim.cmd.lopen)
+  if not success and err then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end, { desc = "Location List" })
+
+-- quickfix list
+map("n", "<leader>xq", function()
+  local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
+  if not success and err then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end, { desc = "Quickfix List" })
+
+-- highlights under cursor
+map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
+map("n", "<leader>uI", function()
+  vim.treesitter.inspect_tree()
+  vim.api.nvim_input("I")
+end, { desc = "Inspect Tree" })
+
+-- Floating Terminal
 map("n", "<leader>ts", function()
   vim.cmd("belowright 12split")
-  vim.cmd("set nonu | set nornu")
-  vim.cmd("set winfixheight")
+  vim.cmd("set nonu | set nornu | set winfixheight")
   vim.cmd("term")
   vim.cmd("startinsert")
-end, { desc = "New Terminal Bellowright" })
+end, { desc = "Terminal Global" })
+
+map("n", "<leader>tb", function()
+  local dir = vim.fn.expand("%:p:h")
+  vim.cmd("belowright 12split")
+  vim.cmd("lcd " .. vim.fn.fnameescape(dir))
+  vim.cmd("set nonu | set nornu | set winfixheight")
+  vim.cmd("term")
+  vim.cmd("startinsert")
+end, { desc = "Terminal Buffer Dir" })
+
 map("n", "<leader>tv", function()
+  local dir = vim.fn.expand("%:p:h")
   vim.cmd("vs")
+  vim.cmd("lcd " .. vim.fn.fnameescape(dir))
   vim.cmd("set nonu | set nornu")
   vim.cmd("term")
   vim.cmd("startinsert")
-end, { desc = "New Terminal Right" })
+end, { desc = "Terminal V Buffer Dir" })
+
 -- Escape terminal
 map("t", "<Leader>jk", "<C-\\><C-n>", { noremap = true, desc = "Escape terminal" })
 map("t", "<Leader>kj", "<C-\\><C-n>", { noremap = true, desc = "Escape terminal" })
@@ -60,16 +119,15 @@ end, { noremap = true, desc = "Escape terminal" })
 -- WINDOW COMMAND
 map("n", "<Leader>j", "<C-W>", { desc = "wincmd leader speudo", silent = true })
 
-map("n", "<M-Down>", "<CMD>wincmd - <CR>", { desc = "Decrease window height" })
-map("n", "<M-Up>", "<CMD>wincmd + <CR>", { desc = "Increase window height" })
-map("n", "<M-Left>", "<CMD>wincmd < <CR>", { desc = "Decrease window width" })
-map("n", "<M-Right>", "<CMD>wincmd > <CR>", { desc = "Increase window width" })
-map("n", "<C-W>z", "<CMD>wincmd _ | wincmd |<CR>", { desc = "Zoom window" })
-map("n", "<Leader>jz", "<CMD>wincmd _ | wincmd |<CR>", { desc = "Zoom window" })
+-- Resize window using <ctrl> arrow keys
+map("n", "<C-Down>", "<CMD>wincmd 2- <CR>", { desc = "Decrease window height" })
+map("n", "<C-Up>", "<CMD>wincmd 2+ <CR>", { desc = "Increase window height" })
+map("n", "<C-Left>", "<CMD>wincmd 2< <CR>", { desc = "Decrease window width" })
+map("n", "<C-Right>", "<CMD>wincmd 2> <CR>", { desc = "Increase window width" })
 
-map("n", "<Leader>oo", "<CMD>wincmd T<CR>", { desc = "Reopen as only window in new tab" })
+map("n", "<Leader>oo", "<CMD>wincmd T<CR>", { desc = "Take window to new tab" })
 -- TAB COMMAND
-map("n", "<Leader>tt", "<CMD>tab split<CR>", { desc = "Open in new tab" })
+map("n", "<Leader>tt", "<CMD>tab split<CR>", { desc = "Duplicate to new tab" })
 
 -- Prevent visual selection from overwritting the last yank
 map("x", "<Leader>p", [["_dP]])
@@ -80,88 +138,25 @@ map("x", "<Leader>p", [["_dP]])
 
 -- BUFFERS
 
-map("n", "<Leader>kl", function() vim.cmd.bn() end, { desc = "Next Buffer" })
-map("n", "<Leader>kh", function() vim.cmd.bp() end, { desc = "Previous Buffer" })
-map("n", "<Leader>x", ":bd ", { desc = "Delete Buffer" })
+map("n", "<Leader>kk", "<C-^>", { desc = "Alternate buffer" })
+map("n", "<Leader>kl", function()
+  vim.cmd.bn()
+end, { desc = "Next Buffer" })
+map("n", "<Leader>kh", function()
+  vim.cmd.bp()
+end, { desc = "Previous Buffer" })
+map("n", "<leader>bx", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
--- Toggle text wrap on command.
--- vim.api.nvim_create_user_command("ToggleWrap", function()
---   if vim.wo.wrap then
---     vim.wo.wrap = false
---   else
---     vim.wo.wrap = true
---   end
--- end, {})
--- map({ "n", "v" }, "<Leader>z", "<Cmd>ToggleWrap<CR>", { desc = "Toggle text wrap", noremap = true, silent = true })
-
-vim.cmd([[
-  function! ToggleWrap()
-    if &wrap
-      set nowrap
-    else
-      set wrap
-    endif
-  endfunction
-
-  command! ToggleWrap call ToggleWrap()
-  " Toggle text wrap
-  nnoremap <silent> <Leader>z :ToggleWrap<CR>
-  vnoremap <silent> <Leader>z :ToggleWrap<CR>
-]])
-
--- Toggle Tab expansion on command
--- vim.api.nvim_create_user_command("ToggleTabExpansion", function()
---   if vim.bo.et then
---     vim.cmd.set("noet")
---   else
---     vim.cmd.set("et")
---   end
---   print("expandtab " .. (vim.bo.et and "true" or "false"))
--- end, {})
---
--- map({ "n", "v" }, "<Leader>et", "<Cmd>ToggleTabExpansion<CR>",
---   { desc = "Toggle expandtab", noremap = true, silent = true })
-
-vim.cmd([[
-  function! ToggleTabExpansion()
-    if &expandtab
-      set noexpandtab
-    else
-      set expandtab
-    endif
-    echo "expandtab " . (&expandtab ? "true" : "false")
-  endfunction
-
-  command! ToggleTabExpansion call ToggleTabExpansion()
-  nnoremap <Leader>et :ToggleTabExpansion<CR>
-  vnoremap <Leader>et :ToggleTabExpansion<CR>
-]])
-
--- Toggle modifiable on command
-vim.api.nvim_create_user_command("ToggleModifiable", function()
-  if vim.bo.ma then
-    vim.cmd.set("noma")
-  else
-    vim.cmd.set("ma")
-  end
-  print("modifiable " .. (vim.bo.ma and "true" or "false"))
-end, {})
-
-map({ "n", "v" }, "<Leader>mo", "<Cmd>ToggleModifiable<CR>",
-  { desc = "Toggle modifiable", noremap = true, silent = true })
-
--- Toggle readonly on command
-vim.api.nvim_create_user_command("ToggleReadonly", function()
-  if vim.bo.ro then
-    vim.cmd.set("noro")
-  else
-    vim.cmd.set("ro")
-  end
-  print("readonly " .. (vim.bo.ro and "true" or "false"))
-end, {})
-
-map({ "n", "v" }, "<Leader>ro", "<Cmd>ToggleReadonly<CR>",
-  { desc = "Toggle readonly", noremap = true, silent = true })
+-- HACK: To turn off hls without unsetting it run :nohls not :set nohls
+map({ "n", "s" }, "<Leader>nh", function()
+  vim.cmd("noh")
+  vim.snippet.stop()
+end, { expr = true, desc = "Escape and Clear hlsearch" })
+-- Clear search, diff update and redraw taken from runtime/lua/_editor.lua
+map("n", "<C-L>", function()
+  vim.cmd("nohlsearch | diffupdate | syntax sync fromstart")
+  return "<C-L>"
+end, { desc = "Clear hlsearch | Diff Update | Redraw" })
 
 -- VS CODE
 map("n", "<Leader>vr", "<CMD>!code .<CR>", { desc = "Open cwd in VS Code", silent = true })
@@ -170,6 +165,18 @@ map("n", "<Leader>vf", "<CMD>!code %<CR>", { desc = "Open file in VS Code", sile
 map("n", "<localleader>l", "<CMD>Lazy<CR>", { desc = "lazy.nvim", noremap = true, silent = true })
 map("n", "<localleader>m", "<CMD>Mason<CR>", { desc = "mason.nvim", noremap = true, silent = true })
 
-map("n", "<Leader>d", function()
+-- diagnostic
+map("n", "<leader>d", function()
   vim.diagnostic.open_float({ border = "rounded" })
-end, { desc = "Vim diagnostic" })
+end, { desc = "Line Diagnostics" })
+local diagnostic_goto = function(next, severity)
+  return function()
+    vim.diagnostic.jump({
+      count = (next and 1 or -1) * vim.v.count1,
+      severity = severity and vim.diagnostic.severity[severity] or nil,
+      float = true,
+    })
+  end
+end
+map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
+map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
