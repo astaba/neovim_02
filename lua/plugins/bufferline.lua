@@ -7,7 +7,7 @@ return {
   dependencies = "nvim-tree/nvim-web-devicons",
   init = function()
     vim.opt.termguicolors = true
-    vim.opt.mousemoveevent = true;
+    vim.opt.mousemoveevent = true
   end,
   config = function()
     require("bufferline").setup({
@@ -15,14 +15,13 @@ return {
         hover = {
           enabled = true,
           delay = 200,
-          reveal = { "close" }
+          reveal = { "close" },
         },
         middle_mouse_command = "sbuffer %d",
         right_mouse_command = "vertical sbuffer %d",
         numbers = function(opts)
           return string.format("%s·%s", opts.ordinal, opts.id)
         end,
-
       },
     })
 

@@ -18,9 +18,9 @@ return {
     },
     -- setting the keybinding for LazyGit with "keys" is recommended in
     -- order to load the plugin when the command is run for the first time
-    keys = {
-      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-    },
+    -- keys = {
+    --   { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+    -- },
   },
   -- Super fast git decorations implemented purely in Lua.
   {
@@ -56,22 +56,30 @@ return {
 
           -- Actions
           map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "Git toggle-stage hunk" })
-          map("v", "<leader>hs", function() gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,
-            { desc = "Git stage hunk" })
+          map("v", "<leader>hs", function()
+            gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+          end, { desc = "Git stage hunk" })
           map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "Git stage buffer" })
           map("n", "<leader>hr", gitsigns.reset_hunk, { desc = "Git reset hunk" })
-          map("v", "<leader>hr", function() gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end,
-            { desc = "Git reset hunk" })
+          map("v", "<leader>hr", function()
+            gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+          end, { desc = "Git reset hunk" })
           map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "Git reset buffer" })
-          map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Git preview hunk" })
-          map("n", "<leader>hb", function() gitsigns.blame_line({ full = true }) end,
-            { desc = "Git commmited chunk blame" })
+          map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "Git preview_hunk & opt focus" })
+          map("n", "<leader>hb", function()
+            gitsigns.blame_line({ full = true })
+          end, { desc = "Git commmited chunk blame" })
           -- map("n", "<leader>gd", gitsigns.diffthis, { desc = "Git diff working tree" })
           --[[ map("n", "<leader>gD", function()
             gitsigns.diffthis("~")
           end, { desc = "Git diff last commit" }) ]]
-          map("n", "<leader>ht", gitsigns.preview_hunk_inline, { desc = "Git toggle deleted hunk" })
-          map("n", "<leader>hl", gitsigns.toggle_current_line_blame, { desc = "Git toggle current line blame" })
+          map("n", "<leader>hi", gitsigns.preview_hunk_inline, { desc = "Git preview_hunk inline" })
+          map(
+            "n",
+            "<leader>hl",
+            gitsigns.toggle_current_line_blame,
+            { desc = "Git toggle current line blame" }
+          )
           map("n", "<leader>hh", gitsigns.toggle_linehl, { desc = "Git toggle line highlight" })
           map("n", "<leader>hw", gitsigns.toggle_word_diff, { desc = "Git toggle unstaged word diff" })
           map("n", "<leader>hg", gitsigns.toggle_signs, { desc = "Git toggle gutter signs" })
@@ -90,7 +98,9 @@ return {
     "tpope/vim-fugitive",
     enabled = enabled("vim-fugitive"),
     config = function()
-      vim.keymap.set("n", "<leader>gbf", function() vim.cmd.Git("blame") end, { desc = "Git fugitive blame" })
+      vim.keymap.set("n", "<leader>gbf", function()
+        vim.cmd.Git("blame")
+      end, { desc = "Git fugitive blame" })
 
       vim.keymap.set("n", "<leader>gls", function()
         vim.cmd.Git("log --stat -- %")
@@ -111,6 +121,6 @@ return {
         vim.cmd.Git("diff %")
         vim.cmd("wincmd L")
       end, { desc = "Git fugitive diff working tree" })
-    end
-  }
+    end,
+  },
 }

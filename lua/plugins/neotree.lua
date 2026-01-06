@@ -21,10 +21,10 @@ return {
     },
   },
   keys = {
+    -- stylua: ignore start
     { "<Leader>ee", "<Cmd>Neotree reveal filesystem right<CR>", desc = "Open Neotree" },
     { "<Leader>er", "<Cmd>Neotree reveal filesystem show<CR>",  desc = "Show Neotree" },
-    { "<Leader>ef", "<Cmd>Neotree reveal filesystem float<CR>", desc = "Open Neotree Float" },
-    { "<Leader>eg", "<Cmd>Neotree float git_status<CR>",        desc = "Show git-tracked files" },
     { "<Leader>ec", "<Cmd>Neotree close<CR>",                   desc = "Close Neotree" },
+    -- stylua: ignore end
   },
 }

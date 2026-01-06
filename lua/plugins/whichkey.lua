@@ -16,17 +16,20 @@ return {
     })
 
     wk.add({
-      {
-        "<leader>b",
-        group = "[B]uffers",
-        expand = function() return require("which-key/extras").expand.buf() end
-      },
+      -- {
+      --   "<leader>b",
+      --   group = "[B]uffers",
+      --   expand = function() return require("which-key/extras").expand.buf() end
+      -- },
+      { "<leader>j", group = "windows", proxy = "<c-w>" },
     }) -- end of wk.add()
   end,
   keys = {
     {
       "<leader>?",
-      function() require("which-key").show({ global = false }) end,
+      function()
+        require("which-key").show({ global = false })
+      end,
       desc = "Buffer Local Keymaps (which-key)",
     },
   },

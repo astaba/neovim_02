@@ -1,26 +1,11 @@
 local enabled = require("config.grimoire")
 
 return {
-  "kylechui/nvim-surround",
+  "kylechui/nvim-surround", -- Read :h nvim-surround.usage
   enabled = enabled("nvim-surround"),
-  version = "*", -- Use for stability; omit to use `main` branch for the latest features
+  version = "*",           -- Use for stability; omit to use `main` branch for the latest features
   event = "VeryLazy",
   config = function()
     require("nvim-surround").setup({})
   end,
 }
-
--- For help :h nvim-surround.usage
--- The three "core" operations of add/delete/change can be done with the
--- keymaps ys{motion}{char}, ds{char}, and cs{target}{replacement},
--- respectively. For the following examples, * will denote the cursor position:
-
---     Old text                    Command         New text
--- --------------------------------------------------------------------------------
---     surr*ound_words             ysiw)           (surround_words)
---     *make strings               ys$"            "make strings"
---     [delete ar*ound me!]        ds]             delete around me!
---     remove <b>HTML t*ags</b>    dst             remove HTML tags
---     'change quot*es'            cs'"            "change quotes"
---     <b>or tag* types</b>        csth1<CR>       <h1>or tag types</h1>
---     delete(functi*on calls)     dsf             function calls

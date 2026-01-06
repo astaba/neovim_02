@@ -6,6 +6,6 @@ return {
   cmd = "ShowkeysToggle",
   opts = {
     timeout = 2,
-    maxkeys = 5
+    maxkeys = 5,
   },
 }

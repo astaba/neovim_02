@@ -17,7 +17,7 @@ return {
     })
 
     local ft = require("Comment.ft")
-    ft.asm = "# %s"  -- assembly AT&T
+    ft.asm = "# %s" -- assembly AT&T
     ft.nasm = "; %s" -- assembly Intel
   end,
 }

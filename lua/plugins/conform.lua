@@ -8,7 +8,7 @@ return {
     --   lsp_format = "fallback", -- NOTE: Already set in key binding rhs
     -- },
     formatters_by_ft = {
-      -- lua = { "stylua" }, --  NOTE: Disabled because it expands tabs
+      -- lua = { "stylua" }, -- FIX: Seems to force tab expansion. Fix: reinstall stylua
 
       -- Conform will run multiple formatters sequentially
       python = { "isort", "black" },

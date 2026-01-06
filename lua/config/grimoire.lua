@@ -33,6 +33,9 @@ end
 -- To keep it alphbetically tidy use the bash cmd sort
 -- (which allows for redirection of both io streams) on the target text chunk.
 
+-- NOTE: Keep "indent-blankline.nvim" around even disabled for its flurry of
+-- indent characters not even available in digraphs.
+
 -- Example of ~edict.lua file:
 
 -- return {

@@ -18,18 +18,18 @@ return {
         custom_highlights = function(colors)
           return {
             -- Active window: nearly pitch black
-            Normal = { bg = "#11111b" },   -- Crust: deepest Mocha shade
+            Normal = { bg = "#11111b" }, -- Crust: deepest Mocha shade
             -- Inactive windows: just a bit lighter
             NormalNC = { bg = "#181825" }, -- Mantle: soft contrast
             -- Floating UI elements: echo NormalNC for cohesion
             FloatBorder = { bg = "#181825" },
             FloatTitle = { bg = "#181825" },
             -- -- Optional extras
-            LineNr = { fg = "#6c7086" },                     -- muted text
-            WinSeparator = { fg = "#313244" },               -- subtle split lines
+            LineNr = { fg = "#6c7086" },               -- muted text
+            WinSeparator = { fg = "#313244" },         -- subtle split lines
             StatusLine = { bg = "#1a1b26", fg = "#cdd6f4" }, -- soft contrast on status
           }
-        end
+        end,
       })
     end,
   },
@@ -58,7 +58,7 @@ return {
         transparent_mode = true,
         contrast = "hard",
       })
-    end
+    end,
   },
   {
     "rebelot/kanagawa.nvim",
@@ -78,7 +78,7 @@ return {
       require("ayu").setup({
         mirage = true,
       })
-    end
+    end,
   },
   {
     "EdenEast/nightfox.nvim",
@@ -89,9 +89,9 @@ return {
       require("nightfox").setup({
         options = {
           transparent = true,
-        }
+        },
       })
-    end
+    end,
   },
   {
     "navarasu/onedark.nvim",
@@ -99,10 +99,10 @@ return {
     lazy = true,
     event = "BufRead", -- Load on buffer read
     config = function()
-      require('onedark').setup {
+      require("onedark").setup({
         transparent = true,
-      }
-    end
+      })
+    end,
   },
   {
     "rose-pine/neovim",
@@ -118,7 +118,7 @@ return {
           transparency = true,
         },
       })
-    end
+    end,
   },
   {
     "folke/tokyonight.nvim",
@@ -136,6 +136,6 @@ return {
           floats = "transparent",
         },
       })
-    end
-  }
+    end,
+  },
 }

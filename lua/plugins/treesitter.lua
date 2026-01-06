@@ -1,11 +1,24 @@
 local enabled = require("config.grimoire")
 
+-- Mon Dec 22 18:30:42 +01 2025
+-- WARN: On latest version of nvim-treesitter:
+-- Reset runtimepath out-of-the-box breaking neovim default parsers.
+-- Make sure to have tree-sitter-cli installed with cargo on the system.
+-- No longer has the nvim-treesitter.configs object. As a result no longer
+-- plugs with latest version of nvim-treesitter-textobjects.
+-- No longer auto_install parsers downloaded with nvim-treesitter.install({})
+-- FIX: Stick with:
+-- "nvim-treesitter": { "branch": "main", "commit": "42fc28ba918343ebfd5565147a42a26580579482" },
+-- As refered to by Nvchad a main and stable neovim distribution.
+-- Or more recent commit:
+-- commit = "b171f948da98d157f7143776e691e92e83b777d2",
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
     enabled = enabled("nvim-treesitter"),
     event = { "BufReadPre", "BufNewfile" },
-    build = "TSUpdate",
+    build = ":TSUpdate",
     dependencies = {
       "windwp/nvim-ts-autotag",
       "nvim-treesitter/nvim-treesitter-textobjects",
@@ -89,7 +102,7 @@ return {
             -- mapping query_strings to modes.
             selection_modes = {
               ["@parameter.outer"] = "v", -- charwise
-              ["@function.outer"] = "V",  -- linewise
+              ["@function.outer"] = "V", -- linewise
               ["@class.outer"] = "<c-v>", -- blockwise
             },
             -- If you set this to `true` (default is `false`) then any textobject is
@@ -147,7 +160,7 @@ return {
             },
             goto_previous = {
               ["[i"] = "@conditional.outer",
-            }
+            },
           },
 
           swap = {
@@ -156,7 +169,10 @@ return {
               ["<leader>r"] = { query = { "@entry", "@parameter.inner" }, desc = "Swap next entry/param" },
             },
             swap_previous = {
-              ["<leader>R"] = { query = { "@entry", "@parameter.inner" }, desc = "Swap previous entry/param" },
+              ["<leader>R"] = {
+                query = { "@entry", "@parameter.inner" },
+                desc = "Swap previous entry/param",
+              },
             },
           },
         },
@@ -168,22 +184,22 @@ return {
     enabled = enabled("nvim-treesitter-context"),
     event = { "BufReadPre", "BufNewFile" },
     config = function()
-      require 'treesitter-context'.setup {
-        enable = true,            -- Enable this plugin (Can be enabled/disabled later via commands)
-        multiwindow = false,      -- Enable multiwindow support.
-        max_lines = 0,            -- How many lines the window should span. Values <= 0 mean no limit.
-        min_window_height = 0,    -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+      require("treesitter-context").setup({
+        enable = true,        -- Enable this plugin (Can be enabled/disabled later via commands)
+        multiwindow = false,  -- Enable multiwindow support.
+        max_lines = 0,        -- How many lines the window should span. Values <= 0 mean no limit.
+        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
         line_numbers = true,
         multiline_threshold = 20, -- Maximum number of lines to show for a single context
-        trim_scope = 'outer',     -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-        mode = 'cursor',          -- Line used to calculate context. Choices: 'cursor', 'topline'
+        trim_scope = "outer", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        mode = "cursor",      -- Line used to calculate context. Choices: 'cursor', 'topline'
         -- Separator between context and content. Should be a single character string, like '-'.
         -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
         separator = nil,
-        zindex = 20,     -- The Z-index of the context window
+        zindex = 20, -- The Z-index of the context window
         on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
-      }
-    end
+      })
+    end,
   },
   {
     "windwp/nvim-ts-autotag",
@@ -195,14 +211,14 @@ return {
       "typescript",
       "javascriptreact",
       "typescriptreact",
-      "svelte"
+      "svelte",
     },
     config = function()
       -- Independent nvim-ts-autotag setup
       require("nvim-ts-autotag").setup({
         opts = {
-          enable_close = true,           -- Auto-close tags
-          enable_rename = true,          -- Auto-rename pairs
+          enable_close = true,      -- Auto-close tags
+          enable_rename = true,     -- Auto-rename pairs
           enable_close_on_slash = false, -- Disable auto-close on trailing `</`
         },
         per_filetype = {
@@ -215,5 +231,5 @@ return {
         },
       })
     end,
-  }
+  },
 }

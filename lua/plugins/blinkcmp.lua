@@ -6,7 +6,20 @@ return {
   dependencies = {
     "rafamadriz/friendly-snippets",
     "folke/lazydev.nvim",
-    { "L3MON4D3/LuaSnip", version = "v2.*" },
+    -- { "L3MON4D3/LuaSnip", version = "v2.*" },
+    {
+      "L3MON4D3/LuaSnip",
+      -- follow latest release.
+      version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+      -- install jsregexp (optional!).
+      build = "make install_jsregexp",
+      config = function()
+        local luasnip = require("luasnip")
+        luasnip.filetype_extend("typescript", { "javascript" })
+        require("luasnip.loaders.from_vscode").lazy_load()
+        require("luasnip.loaders.from_snipmate").lazy_load()
+      end,
+    },
     "onsails/lspkind.nvim", -- vs-code like pictograms
     "nvim-tree/nvim-web-devicons",
   },
@@ -17,11 +30,11 @@ return {
     -- See :h blink-cmp-config-keymap for defining your own keymap
     keymap = {
       preset = "default",
-      ['<C-k>'] = {}, -- digraphs default commmand
-      ['<C-s>'] = { 'show_signature', 'hide_signature', 'fallback' },
+      ["<C-k>"] = {}, -- digraphs default commmand
+      ["<C-s>"] = { "show_signature", "hide_signature", "fallback" },
     },
     appearance = {
-      nerd_font_variant = "mono"
+      nerd_font_variant = "mono",
     },
     cmdline = {
       --  BUG: The completion freezes the process when cli runs :!
@@ -32,7 +45,7 @@ return {
         auto_show = true,
         window = {
           border = "single",
-        }
+        },
       },
       menu = {
         border = "bold",
@@ -69,8 +82,8 @@ return {
                 end
                 return hl
               end,
-            }
-          }
+            },
+          },
         },
       },
     },
@@ -78,7 +91,7 @@ return {
       enabled = true,
       window = {
         border = "single",
-      }
+      },
     },
     snippets = { preset = "luasnip" },
 
@@ -101,7 +114,7 @@ return {
     -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
     --
     -- See the fuzzy documentation for more information
-    fuzzy = { implementation = "prefer_rust_with_warning" }
+    fuzzy = { implementation = "prefer_rust_with_warning" },
   },
-  opts_extend = { "sources.default" }
+  opts_extend = { "sources.default" },
 }

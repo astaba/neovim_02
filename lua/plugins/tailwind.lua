@@ -12,11 +12,11 @@ return {
     },
     ---@type TailwindTools.Option
     ---@diagnostic disable-next-line: missing-fields
-    opts = {                 -- your configuration
+    opts = {             -- your configuration
       document_color = {
         kind = "background", -- "inline" | "foreground" | "background"
-      }
-    }
+      },
+    },
   },
   {
     "NvChad/nvim-colorizer.lua",
@@ -47,5 +47,5 @@ return {
         end,
       })
     end,
-  }
+  },
 }

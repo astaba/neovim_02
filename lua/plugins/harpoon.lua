@@ -46,17 +46,30 @@ return {
       harpoon:list():add()
       vim.notify("🔥 Harpoon add: " .. vim.fn.expand("%:t"), vim.log.levels.WARN)
     end, { desc = "Harpoon add file" })
-    vim.keymap.set("n", "<M-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
-      { desc = "Harpoon toggle list" })
+    vim.keymap.set("n", "<M-a>", function()
+      harpoon.ui:toggle_quick_menu(harpoon:list())
+    end, { desc = "Harpoon toggle list" })
 
     --Harpoon marked files
-    vim.keymap.set("n", "<M-h>", function() harpoon:list():select(1) end, { desc = "Harpoon n°1 file" })
-    vim.keymap.set("n", "<M-j>", function() harpoon:list():select(2) end, { desc = "Harpoon n°2 file" })
-    vim.keymap.set("n", "<M-k>", function() harpoon:list():select(3) end, { desc = "Harpoon n°3 file" })
-    vim.keymap.set("n", "<M-l>", function() harpoon:list():select(4) end, { desc = "Harpoon n°4 file" })
+    -- vim.keymap.set("n", "<M-h>", function()
+    --   harpoon:list():select(1)
+    -- end, { desc = "Harpoon n°1 file" })
+    -- vim.keymap.set("n", "<M-j>", function()
+    --   harpoon:list():select(2)
+    -- end, { desc = "Harpoon n°2 file" })
+    -- vim.keymap.set("n", "<M-k>", function()
+    --   harpoon:list():select(3)
+    -- end, { desc = "Harpoon n°3 file" })
+    -- vim.keymap.set("n", "<M-l>", function()
+    --   harpoon:list():select(4)
+    -- end, { desc = "Harpoon n°4 file" })
 
     -- Toggle previous & next buffers stored within Harpoon list
-    vim.keymap.set("n", "<M-p>", function() harpoon:list():prev() end, { desc = "Harpoon prev" })
-    vim.keymap.set("n", "<M-n>", function() harpoon:list():next() end, { desc = "Harpoon next" })
+    -- vim.keymap.set("n", "<M-p>", function()
+    --   harpoon:list():prev()
+    -- end, { desc = "Harpoon prev" })
+    -- vim.keymap.set("n", "<M-n>", function()
+    --   harpoon:list():next()
+    -- end, { desc = "Harpoon next" })
   end,
 }
