@@ -4,14 +4,13 @@ local Layouts = require("config.lib.layouts")
 
 vim.api.nvim_create_augroup("shellscripts-type", { clear = true })
 
+-- Apply shellscript settings: force filetype=sh and set 4-spaced tabs.
 local set_shellscript_opt = function()
-  -- vim.cmd.colorscheme("catppuccin-mocha")
   vim.bo.filetype = "sh"
   Layouts.tab4_noet()
 end
 
--- WARNING: "file --mime-type --brief" is not POSIX-compliant
--- and returns "text/plain" on some crucial bash config dotfiles.
+-- Detect shell scripts via MIME type (not fully POSIX; unreliable for some dotfiles).
 local is_shell_script = function(filepath)
   local handle = io.popen("file --mime-type --brief " .. filepath, nil)
   ---@diagnostic disable-next-line: need-check-nil
@@ -21,10 +20,12 @@ local is_shell_script = function(filepath)
   return result:match("text/x%-shellscript")
 end
 
--- Shebang sniffer
+-- Detect shell scripts by checking for a sh-compatible shebang.
 local function has_shebang(filepath)
   local f = io.open(filepath, "r")
-  if not f then return false end
+  if not f then
+    return false
+  end
   local first_line = f:read("*l")
   f:close()
   if first_line then
@@ -32,7 +33,7 @@ local function has_shebang(filepath)
   end
 end
 
--- Known shell config dotfiles tracker
+-- Identify common shell configuration dotfiles (bash/zsh startup files).
 local is_known_shell_dotfile = function(filepath)
   return vim.tbl_contains({
     ".bashrc",
@@ -45,24 +46,26 @@ local is_known_shell_dotfile = function(filepath)
   }, vim.fn.fnamemodify(filepath, ":t"))
 end
 
+-- For *.sh files, immediately apply shellscript options.
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = "shellscripts-type",
   pattern = "*.sh",
   callback = function()
     set_shellscript_opt()
-  end
+  end,
 })
 
+-- For all other files, detect shell scripts via MIME, shebang, or known dotfiles.
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = "shellscripts-type",
   pattern = "*",
   callback = function()
     local filepath = vim.fn.expand("<afile>", nil, nil)
-    if filepath:match("%.sh$") == nil
-        and (is_shell_script(filepath)
-          or has_shebang(filepath)
-          or is_known_shell_dotfile(filepath)) then
+    if
+        filepath:match("%.sh$") == nil
+        and (is_shell_script(filepath) or has_shebang(filepath) or is_known_shell_dotfile(filepath))
+    then
       set_shellscript_opt()
     end
-  end
+  end,
 })

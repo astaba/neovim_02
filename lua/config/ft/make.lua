@@ -26,5 +26,5 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     if filepath:match("%.") == nil and is_makefile(filepath) then
       set_makefile_opt()
     end
-  end
+  end,
 })

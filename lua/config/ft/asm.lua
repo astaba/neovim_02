@@ -18,59 +18,23 @@
 --    those extensions are coerced and overwritten to either "nasm" or "asm"
 --    because tressiter offers nice highlighting to tell apart assembly flavors.
 
-vim.lsp.config['asm_lsp'] = {
-  -- Command and arguments to start the server.
-  -- cmd = { "asm-lsp" },
-  -- Filetypes to automatically attach to.
-  filetypes = { "asm", "vmasm", "nasm" },
-  -- Sets the "workspace" to the directory where any of these files is found.
-  -- Files that share a root directory will reuse the LSP server connection.
-  -- Nested lists indicate equal priority, see |vim.lsp.Config|.
-  -- root_markers = { ".asm-lsp.toml", ".git" },
-  -- Specific settings to send to the server. The schema is server-defined.
-  -- settings = {}
-}
-
-
 local Layouts = require("config.lib.layouts")
 local Compile = require("config.lib.compile")
 
 -- ====================================  NSAM: Intel Syntax  ===================
 
 vim.api.nvim_create_augroup("NasmFiles", { clear = true })
-local nasm_pattern = { "*.asm", "*.nasm", }
+local nasm_pattern = { "*.asm", "*.nasm" }
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = "NasmFiles",
   pattern = nasm_pattern,
   callback = function()
     vim.bo.filetype = "nasm"
-    Layouts.tab4_et()
+    Layouts.tab4_noet()
     Compile.auto_compile()
-  end
+  end,
 })
-
-vim.g.nasm_auto_linking = false
-
-vim.api.nvim_create_autocmd("BufWritePost", {
-  desc = "Automate linking of NASM source files.",
-  group = "NasmFiles",
-  pattern = nasm_pattern,
-  callback = function()
-    if vim.g.nasm_auto_linking then
-      vim.fn.system("make " .. vim.fn.expand("%:t:r") .. ".out")
-    end
-  end
-})
-
-vim.api.nvim_create_user_command("ToggleNasmAutoLinking", function()
-  vim.g.nasm_auto_linking = not vim.g.nasm_auto_linking
-  print("Nasm Auto Linking: " .. (vim.g.nasm_auto_linking and "Enabled" or "Disabled"))
-end, {})
-
--- TODO: Restrict this shortcut to the concerned patterns
-vim.keymap.set("n", "<Leader>ac", "<CMD>ToggleNasmAutoLinking<CR>",
-  { desc = "ToggleNasmAutoLinking", noremap = true, silent = true })
 
 -- ====================================  GAS: AT&T Syntax  ===================
 -- NOTE: Compilation pipeline memo:
@@ -82,7 +46,7 @@ vim.keymap.set("n", "<Leader>ac", "<CMD>ToggleNasmAutoLinking<CR>",
 --    the .o file together with all relevant .o relocatale files.
 
 vim.api.nvim_create_augroup("GasFiles", { clear = true })
-local gas_pattern = { "*.s", "*.as", "*.S", }
+local gas_pattern = { "*.s", "*.as", "*.S" }
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = "GasFiles",
@@ -91,5 +55,5 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     -- vim.bo.filetype = "asm"
     Layouts.tab4_et()
     Compile.auto_compile()
-  end
+  end,
 })
